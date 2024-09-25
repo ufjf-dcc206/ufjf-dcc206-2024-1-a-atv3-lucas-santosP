@@ -6,13 +6,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" src="/src/main.ts"></script>
     <title>Vite + TS</title>
+
+    <style lang="scss">
+      * {
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      #top-player,
+      #middle-board,
+      #bottom-player {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      #top-player #card-slot {
+        border-color: lightcoral;
+
+        &::after {
+          background-color: lightcoral;
+        }
+      }
+      #middle-board #card-slot {
+        border-color: lightslategrey;
+
+        &::after {
+          background-color: lightslategrey;
+        }
+      }
+      #bottom-player #card-slot {
+        border-color: lightseagreen;
+
+        &::after {
+          background-color: lightseagreen;
+        }
+      }
+
+      #card-slot {
+        position: relative;
+        width: 143px;
+        height: 188px;
+        cursor: pointer;
+        overflow: hidden;
+        border: 5px solid;
+        background-color: transparent;
+        border-radius: 12px;
+        text-align: center;
+        transition: transform 0.3s ease;
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 200px;
+          height: 200px;
+          transform: rotate(35deg) translateY(-50%);
+          right: -30px;
+          top: -120px;
+        }
+
+        > pokemon-card {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+    </style>
   </head>
   <body>
     <main>
-      <pokemon-card
-        name="Charmander"
-        types="Fire"
-        image-url="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" />
+      <div id="top-player">
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+      </div>
+      <div id="middle-board">
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+      </div>
+      <div id="bottom-player">
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+        <div id="card-slot"></div>
+      </div>
     </main>
   </body>
 </html>

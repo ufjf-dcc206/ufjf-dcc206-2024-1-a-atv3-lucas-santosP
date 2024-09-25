@@ -2,53 +2,56 @@ const templatePokemonCard = document.createElement("template");
 templatePokemonCard.innerHTML = `
 <style>
 .pokemon-card {
+  box-sizing:border-box;
+  display: flex;
+  flex-direction: column;
+  width: 135px;
+  height: 180px;
+  padding: 12px;
   background-color: #fff;
-  border: 4px solid rebeccapurple;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 220px;
   text-align: center;
-  padding: 20px;
-  margin: 20px auto;
   font-family: 'Arial', sans-serif;
   transition: transform 0.3s ease;
 }
 
-.pokemon-card:hover {
-  transform: scale(1.05);
+.pokemon-card:hover img {
+  transform: scale(1.2);
+  transition: transform 0.4s ease;
 }
 
 #image {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  height: 80px;
   object-fit: contains;
   margin-bottom: 10px;
 }
 
 #name {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: bold;
   color: #333;
-  margin: 10px 0;
+  margin-bottom: 6px;
 }
 
 #types {
+  font-size: 10px;
   font-weight: 500;
   margin-top: 10px;
   background-color:#333;
   padding: 5px 10px;
   border-radius: 12px;
   color: #fff;
-  font-size: 14px;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: semi-bold;
 }
 </style>
 
 <div class="pokemon-card">
   <img id="image" alt="Pokemon image"/>
-  <p id="name"></p>
-  <p id="types"></p>
+  <span id="name"></span>
+  <span id="types"></span>
 </div>
 `;
 

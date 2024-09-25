@@ -1,18 +1,21 @@
+import { PokemonCard } from "./components/pokemon-card";
 import "./style.css";
 
 export type Pokemon = {
+  id: number;
   name: string;
   types: string;
-  imageUrl?: string;
-  id: number;
+  imageUrl: string;
 };
 
 type ApiResponseGetPokemon = {
   id: number;
   name: string;
-  sprites: { front_default: string };
+  sprites: { other: { "official-artwork": { front_default: string } } };
   types: { type: { name: string } }[];
 };
+
+customElements.define("pokemon-card", PokemonCard);
 
 function generateUniqueRandomIds() {
   const randomNumbers = new Set<number>();
@@ -30,24 +33,43 @@ async function getPokemonById(id: number) {
 }
 
 async function fetchPokemons() {
-  try {
-    const results = await Promise.all(generateUniqueRandomIds().map((id) => getPokemonById(id)));
-    const pokemons: Pokemon[] = results.map((data) => ({
-      id: data.id,
-      name: data.name,
-      imageUrl: data.sprites.front_default,
-      types: data.types.map((item) => item.type.name).join(", "),
-    }));
-    return pokemons;
-  } catch (error) {
-    alert(error?.message);
-  }
+  const results = await Promise.all(generateUniqueRandomIds().map((id) => getPokemonById(id)));
+
+  const pokemons: Pokemon[] = results.map((data) => ({
+    id: data.id,
+    name: data.name,
+    imageUrl: data.sprites.other["official-artwork"].front_default,
+    types: data.types.map((item) => item.type.name).join(", "),
+  }));
+  console.log(pokemons);
+
+  return pokemons;
+}
+
+function createPokemonElement(pokemon: Pokemon) {
+  const element = document.createElement("pokemon-card");
+  element.setAttribute("name", pokemon.name);
+  element.setAttribute("types", pokemon.types);
+  element.setAttribute("image-url", pokemon.imageUrl);
+  return element;
 }
 
 async function render() {
   const pokemons = await fetchPokemons();
-  console.log(pokemons);
-  // manipula html e renderiza pokemons
+  const topPlayerRow = document.querySelectorAll("#top-player>div")!;
+  const bottomPlayerRow = document.querySelectorAll("#bottom-player>div")!;
+  const middleBoardRow = document.querySelectorAll("#middle-board>div")!;
+
+  const pokemonsAtTop = pokemons.slice(0, 5);
+  const pokemonsAtBottom = pokemons.slice(5);
+  topPlayerRow.forEach((cardSlot, index) => {
+    cardSlot.appendChild(createPokemonElement(pokemonsAtTop[index]));
+  });
+  bottomPlayerRow.forEach((cardSlot, index) => {
+    cardSlot.appendChild(createPokemonElement(pokemonsAtBottom[index]));
+  });
+
+  middleBoardRow.forEach((cardSlot) => {});
 }
 
 render();
