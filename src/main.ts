@@ -63,13 +63,24 @@ async function render() {
   const pokemonsAtTop = pokemons.slice(0, 5);
   const pokemonsAtBottom = pokemons.slice(5);
   topPlayerRow.forEach((cardSlot, index) => {
-    cardSlot.appendChild(createPokemonElement(pokemonsAtTop[index]));
-  });
-  bottomPlayerRow.forEach((cardSlot, index) => {
-    cardSlot.appendChild(createPokemonElement(pokemonsAtBottom[index]));
+    const pokemon = createPokemonElement(pokemonsAtTop[index]);
+    cardSlot.appendChild(pokemon);
+
+    pokemon.addEventListener("click", () => {
+      middleBoardRow[index].appendChild(pokemon);
+      cardSlot.innerHTML = "";
+    });
   });
 
-  middleBoardRow.forEach((cardSlot) => {});
+  bottomPlayerRow.forEach((cardSlot, index) => {
+    const pokemon = createPokemonElement(pokemonsAtBottom[index]);
+    cardSlot.appendChild(pokemon);
+
+    pokemon.addEventListener("click", () => {
+      middleBoardRow[index].appendChild(pokemon);
+      cardSlot.innerHTML = "";
+    });
+  });
 }
 
 render();
