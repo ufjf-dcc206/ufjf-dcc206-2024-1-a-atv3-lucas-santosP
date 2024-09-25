@@ -25,7 +25,12 @@
       #middle-board,
       #bottom-player {
         display: flex;
+        justify-content: center;
         gap: 0.5rem;
+        width: 100%;
+      }
+      #middle-board {
+        background-color: #303030;
       }
 
       #top-player #card-slot {
@@ -36,10 +41,10 @@
         }
       }
       #middle-board #card-slot {
-        border-color: lightslategrey;
+        border-color: #abbaca;
 
         &::after {
-          background-color: lightslategrey;
+          background-color: #abbaca;
         }
       }
       #bottom-player #card-slot {
@@ -57,7 +62,7 @@
         cursor: pointer;
         overflow: hidden;
         border: 5px solid;
-        background-color: transparent;
+        background-color: whitesmoke;
         border-radius: 12px;
         text-align: center;
         transition: transform 0.3s ease;

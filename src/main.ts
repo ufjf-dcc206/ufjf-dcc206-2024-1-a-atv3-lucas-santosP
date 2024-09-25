@@ -8,13 +8,6 @@ export type Pokemon = {
   imageUrl: string;
 };
 
-type ApiResponseGetPokemon = {
-  id: number;
-  name: string;
-  sprites: { other: { "official-artwork": { front_default: string } } };
-  types: { type: { name: string } }[];
-};
-
 customElements.define("pokemon-card", PokemonCard);
 
 function generateUniqueRandomIds() {
@@ -27,6 +20,13 @@ function generateUniqueRandomIds() {
 }
 
 async function getPokemonById(id: number) {
+  type ApiResponseGetPokemon = {
+    id: number;
+    name: string;
+    sprites: { other: { "official-artwork": { front_default: string } } };
+    types: { type: { name: string } }[];
+  };
+
   const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + id, { method: "GET" });
   if (!response.ok) throw Error("Fetch pokemon error!");
   return (await response.json()) as ApiResponseGetPokemon;
@@ -56,19 +56,21 @@ function createPokemonElement(pokemon: Pokemon) {
 
 async function render() {
   const pokemons = await fetchPokemons();
-  const topPlayerRow = document.querySelectorAll("#top-player>div")!;
-  const bottomPlayerRow = document.querySelectorAll("#bottom-player>div")!;
-  const middleBoardRow = document.querySelectorAll("#middle-board>div")!;
-
+  const topPlayerRow = document.querySelectorAll("#top-player>div");
+  const bottomPlayerRow = document.querySelectorAll("#bottom-player>div");
+  const middleBoardRow = document.querySelectorAll("#middle-board>div");
   const pokemonsAtTop = pokemons.slice(0, 5);
   const pokemonsAtBottom = pokemons.slice(5);
+
   topPlayerRow.forEach((cardSlot, index) => {
     const pokemon = createPokemonElement(pokemonsAtTop[index]);
     cardSlot.appendChild(pokemon);
 
     pokemon.addEventListener("click", () => {
-      middleBoardRow[index].appendChild(pokemon);
-      cardSlot.innerHTML = "";
+      if (middleBoardRow[index].children.length === 0) {
+        middleBoardRow[index].appendChild(pokemon);
+        cardSlot.innerHTML = "";
+      }
     });
   });
 
@@ -77,8 +79,10 @@ async function render() {
     cardSlot.appendChild(pokemon);
 
     pokemon.addEventListener("click", () => {
-      middleBoardRow[index].appendChild(pokemon);
-      cardSlot.innerHTML = "";
+      if (middleBoardRow[index].children.length === 0) {
+        middleBoardRow[index].appendChild(pokemon);
+        cardSlot.innerHTML = "";
+      }
     });
   });
 }
